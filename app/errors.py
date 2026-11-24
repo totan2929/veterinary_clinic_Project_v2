@@ -2,11 +2,11 @@
 Programa: app/errors.py
 Objetivo: Centralizar el manejo global y uniforme de errores HTTP y de base de datos.
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Capturar excepciones de FastAPI, Pydantic, MySQL y errores inesperados.
-  - Traducirlos a una respuesta JSON uniforme y documentarlos en OpenAPI (/docs).
+- Capturar excepciones de FastAPI, Pydantic, MySQL y errores inesperados.
+- Traducirlos a una respuesta JSON uniforme y documentarlos en OpenAPI (/docs).
 """
 
 from fastapi import FastAPI, Request

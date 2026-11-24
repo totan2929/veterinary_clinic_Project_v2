@@ -5,9 +5,9 @@ Fecha: 2026-11-24
 Programador: Jonathan Cañola Salazar - Jorge Andrés García Mojica
 
 Responsabilidad UNICA:
-  - Leer la configuracion desde el archivo .env.
-  - Crear y administrar el pool de conexiones reutilizables (patron singleton).
-  - Entregar conexiones limpias sin contener logica de negocio ni SQL.
+- Leer la configuracion desde el archivo .env.
+- Crear y administrar el pool de conexiones reutilizables (patron singleton).
+- Entregar conexiones limpias sin contener logica de negocio ni SQL.
 """
 
 import os

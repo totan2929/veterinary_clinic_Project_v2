@@ -2,10 +2,10 @@
 Programa: app/routers/catalogs.py
 Objetivo: Exponer endpoints de solo lectura para consultar los catalogos maestros.
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Consultar las tablas de catalogo (`document_types`, `species`) para apoyar
+- Consultar las tablas de catalogo (`document_types`, `species`) para apoyar
     la creacion de registros en `owners` y `pets`.
 """
 
