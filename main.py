@@ -1,13 +1,13 @@
 """
 Programa: main.py
 Objetivo: Punto de entrada de la API REST Veterinary Clinic (FastAPI + MySQL).
-Fecha: 2026-11-22
+Fecha: 2026-11-24
 Programador: <Tu Nombre>
 
 Responsabilidad UNICA:
   - Crear la instancia principal de FastAPI con su metadato OpenAPI.
   - Registrar los manejadores globales de errores (app/errors.py).
-  - Incluir los routers de la aplicacion (owners, pets, catalogs).
+  - Incluir los routers de la aplicacion (owners, pets, catalogs, audit).
 
 Ejecucion desde la raiz del proyecto:
   Linux/Omarchy: ./.venv/bin/python -m uvicorn main:app --reload
@@ -19,7 +19,7 @@ Documentacion interactiva:
 from fastapi import FastAPI
 
 from app.errors import registrar_manejadores
-from app.routers import catalogs, owners, pets
+from app.routers import audit, catalogs, owners, pets
 
 app = FastAPI(
     title="Veterinary Clinic API",
@@ -34,6 +34,7 @@ registrar_manejadores(app)
 app.include_router(owners.router)
 app.include_router(pets.router)
 app.include_router(catalogs.router)
+app.include_router(audit.router)
 
 
 @app.get("/", tags=["Root"])
