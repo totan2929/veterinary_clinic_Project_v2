@@ -1,15 +1,15 @@
 """
 Programa: app/schemas/owner.py
-Objetivo: Definir los modelos Pydantic de entrada, actualizacion y salida para owners.
+Objetivo: Definir los modelos Pydantic de entrada, actualizacion y salida para `owners`.
 Fecha: 2026-11-24
-Programador: <jorge andres garcia moica>
+Programador: <Tu Nombre>
 
 Responsabilidad UNICA:
-- Validar tipos, longitudes y formatos de los datos de duenos antes de tocar MySQL.
-- Serializar las respuestas JSON de owners alineadas con el esquema de la BD.
+  - Validar tipos, longitudes y formatos de los datos de duenos antes de tocar MySQL.
+  - Serializar las respuestas JSON de `owners` alineadas con el esquema de la BD.
 """
 
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
@@ -30,6 +30,7 @@ class OwnerBase(BaseModel):
     address: str = Field(..., min_length=4, max_length=100, description="Direccion de residencia")
     phone: str = Field(..., min_length=7, max_length=10, description="Telefono de contacto (solo digitos)")
     email: EmailStr = Field(..., max_length=70, description="Correo electronico (unico)")
+    is_active: bool = Field(default=True, description="Estado activo del dueno")
 
     @field_validator("first_name", "last_name", "address")
     @classmethod
@@ -67,6 +68,7 @@ class OwnerPatch(BaseModel):
     address: str | None = Field(default=None, min_length=4, max_length=100)
     phone: str | None = Field(default=None, min_length=7, max_length=10)
     email: EmailStr | None = Field(default=None, max_length=70)
+    is_active: bool | None = Field(default=None)
 
     @field_validator("first_name", "last_name", "address")
     @classmethod
@@ -90,6 +92,7 @@ class OwnerPatch(BaseModel):
 
 
 class OwnerResponse(OwnerBase):
-    """Esquema de respuesta devuelto por los endpoints de owners."""
+    """Esquema de respuesta devuelto por los endpoints de `owners`."""
 
     owner_id: int
+    created_at: datetime | None = None
