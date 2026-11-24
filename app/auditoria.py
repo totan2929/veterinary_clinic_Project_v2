@@ -2,11 +2,11 @@
 Programa: app/auditoria.py
 Objetivo: Registrar en `audit_logs` quien, cuando y que cambio en cada escritura.
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Identificar al usuario que realiza la peticion (encabezado X-Usuario o IP).
-  - Insertar el evento de auditoria usando el mismo cursor/transaccion del cambio
+- Identificar al usuario que realiza la peticion (encabezado X-Usuario o IP).
+- Insertar el evento de auditoria usando el mismo cursor/transaccion del cambio
     principal, garantizando atomicidad (si el cambio falla, se revierte todo).
 """
 

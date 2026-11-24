@@ -2,10 +2,10 @@
 Programa: app/routers/audit.py
 Objetivo: Exponer el endpoint de solo lectura para consultar el historial de auditoria.
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Consultar los registros de `audit_logs` (sin generar nuevos eventos de auditoria).
+- Consultar los registros de `audit_logs` (sin generar nuevos eventos de auditoria).
 """
 
 from fastapi import APIRouter, Query

@@ -2,7 +2,7 @@
 Programa: app/routers/pets.py
 Objetivo: Exponer los endpoints HTTP (CRUD + PATCH) del recurso `pets` (mascotas).
 Fecha: 2026-11-23
-Programador: <jorge andres garcia mojica>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
 - Recibir peticiones HTTP sobre /pets (datos ya validados por Pydantic).

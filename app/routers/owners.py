@@ -2,12 +2,12 @@
 Programa: app/routers/owners.py
 Objetivo: Exponer los endpoints HTTP (CRUD + PATCH + mascotas por dueno) del recurso `owners`.
 Fecha: 2026-11-22
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Recibir peticiones HTTP sobre /owners (datos ya validados por Pydantic).
-  - Ejecutar sentencias SQL parametrizadas (%s) usando conexiones del pool.
-  - Registrar cada escritura (INSERT, UPDATE, DELETE) en `audit_logs` dentro de la misma transaccion.
+- Recibir peticiones HTTP sobre /owners (datos ya validados por Pydantic).
+- Ejecutar sentencias SQL parametrizadas (%s) usando conexiones del pool.
+- Registrar cada escritura (INSERT, UPDATE, DELETE) en `audit_logs` dentro de la misma transaccion.
 """
 
 from fastapi import APIRouter, HTTPException, Request, status

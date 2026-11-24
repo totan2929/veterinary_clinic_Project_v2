@@ -3,7 +3,7 @@ Programa: app/schemas/pet.py
 Objetivo: Definir los DTOs (schemas de Pydantic) para validar entradas y salidas
 del recurso `pets` (mascotas/pacientes).
 Fecha: 2026-11-24
-Programador: <jorge andres garcia mojica>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
 - Validar tipos, rangos y campos opcionales antes de ejecutar SQL en MySQL.

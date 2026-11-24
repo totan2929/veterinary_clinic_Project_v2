@@ -2,11 +2,11 @@
 Programa: app/schemas/owner.py
 Objetivo: Definir los modelos Pydantic de entrada, actualizacion y salida para `owners`.
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
-  - Validar tipos, longitudes y formatos de los datos de duenos antes de tocar MySQL.
-  - Serializar las respuestas JSON de `owners` alineadas con el esquema de la BD.
+- Validar tipos, longitudes y formatos de los datos de duenos antes de tocar MySQL.
+- Serializar las respuestas JSON de `owners` alineadas con el esquema de la BD.
 """
 
 from datetime import date, datetime
