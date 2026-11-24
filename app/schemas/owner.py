@@ -1,79 +1,95 @@
 """
 Programa: app/schemas/owner.py
-Objetivo: Definir los DTOs (schemas de Pydantic) para validar entradas y salidas
-          del recurso `owners` (duenos de mascotas).
-Fecha: 2026-11-22
-Programador: <Tu Nombre>
+Objetivo: Definir los modelos Pydantic de entrada, actualizacion y salida para owners.
+Fecha: 2026-11-24
+Programador: <jorge andres garcia moica>
 
 Responsabilidad UNICA:
-  - Validar tipos, longitudes y patrones antes de ejecutar SQL en MySQL.
-  - Espejar las reglas y CHECK de la tabla `owners` (doc_number 8-10 digitos,
-    phone 10 digitos, email valido).
+- Validar tipos, longitudes y formatos de los datos de duenos antes de tocar MySQL.
+- Serializar las respuestas JSON de owners alineadas con el esquema de la BD.
 """
 
-from datetime import date, datetime
-from typing import Annotated
+from datetime import date
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
-
-# ---------------------------------------------------------------------------
-# Tipos reutilizables alineados con las columnas y CHECK de la tabla `owners`
-# ---------------------------------------------------------------------------
-DocTypeId = Annotated[int, Field(ge=1, le=255, description="ID del tipo de documento (tabla document_types)")]
-DocNumber = Annotated[str, Field(pattern=r"^[0-9]{8,10}$", description="Numero de documento (8 a 10 digitos)")]
-FirstName = Annotated[str, Field(min_length=1, max_length=80)]
-LastName = Annotated[str, Field(min_length=1, max_length=80)]
-Address = Annotated[str, Field(min_length=1, max_length=100)]
-Phone = Annotated[str, Field(pattern=r"^[0-9]{10}$", description="Telefono celular de 10 digitos")]
-Email = Annotated[EmailStr, Field(max_length=70)]
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class OwnerBase(BaseModel):
-    """Campos comunes para la creacion (POST) y actualizacion completa (PUT) de un dueno."""
+    """Campos compartidos para creacion y actualizacion completa de un dueno."""
 
-    # Elimina espacios en blanco sobrantes al inicio y al final de cada cadena
-    model_config = ConfigDict(str_strip_whitespace=True)
+    doc_type_id: int = Field(..., ge=1, le=255, description="ID del tipo de documento (catalogo)")
+    doc_number: int = Field(
+        ...,
+        ge=100000,
+        le=2147483647,
+        description="Numero de documento entero (unico)",
+    )
+    first_name: str = Field(..., min_length=2, max_length=80, description="Nombres del dueno")
+    last_name: str = Field(..., min_length=2, max_length=80, description="Apellidos del dueno")
+    birth_date: date = Field(..., description="Fecha de nacimiento (YYYY-MM-DD)")
+    address: str = Field(..., min_length=4, max_length=100, description="Direccion de residencia")
+    phone: str = Field(..., min_length=7, max_length=10, description="Telefono de contacto (solo digitos)")
+    email: EmailStr = Field(..., max_length=70, description="Correo electronico (unico)")
 
-    doc_type_id: DocTypeId
-    doc_number: DocNumber
-    first_name: FirstName
-    last_name: LastName
-    birth_date: date
-    address: Address
-    phone: Phone
-    email: Email
-    is_active: bool = True
+    @field_validator("first_name", "last_name", "address")
+    @classmethod
+    def limpiar_espacios(cls, valor: str) -> str:
+        limpio = valor.strip()
+        if not limpio:
+            raise ValueError("El campo no puede estar vacio.")
+        return limpio
+
+    @field_validator("phone")
+    @classmethod
+    def validar_telefono(cls, valor: str) -> str:
+        limpio = valor.strip()
+        if not limpio.isdigit():
+            raise ValueError("El telefono debe contener unicamente digitos.")
+        return limpio
 
 
 class OwnerCreate(OwnerBase):
-    """Schema de entrada requerido para registrar un dueno nuevo (POST /owners)."""
+    """Esquema para POST /owners."""
 
 
 class OwnerUpdate(OwnerBase):
-    """Schema de entrada requerido para reemplazo completo de un dueno (PUT /owners/{owner_id})."""
+    """Esquema para PUT /owners/{owner_id} (reemplazo completo)."""
 
 
 class OwnerPatch(BaseModel):
-    """Schema de entrada para actualizacion parcial (PATCH /owners/{owner_id}).
+    """Esquema para PATCH /owners/{owner_id} (actualizacion parcial)."""
 
-    Todos los campos son opcionales; solo se actualizan los que se envien en el JSON.
-    """
+    doc_type_id: int | None = Field(default=None, ge=1, le=255)
+    doc_number: int | None = Field(default=None, ge=100000, le=2147483647)
+    first_name: str | None = Field(default=None, min_length=2, max_length=80)
+    last_name: str | None = Field(default=None, min_length=2, max_length=80)
+    birth_date: date | None = Field(default=None)
+    address: str | None = Field(default=None, min_length=4, max_length=100)
+    phone: str | None = Field(default=None, min_length=7, max_length=10)
+    email: EmailStr | None = Field(default=None, max_length=70)
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    @field_validator("first_name", "last_name", "address")
+    @classmethod
+    def limpiar_espacios_opcional(cls, valor: str | None) -> str | None:
+        if valor is None:
+            return None
+        limpio = valor.strip()
+        if not limpio:
+            raise ValueError("El campo no puede estar vacio.")
+        return limpio
 
-    doc_type_id: DocTypeId | None = None
-    doc_number: DocNumber | None = None
-    first_name: FirstName | None = None
-    last_name: LastName | None = None
-    birth_date: date | None = None
-    address: Address | None = None
-    phone: Phone | None = None
-    email: Email | None = None
-    is_active: bool | None = None
+    @field_validator("phone")
+    @classmethod
+    def validar_telefono_opcional(cls, valor: str | None) -> str | None:
+        if valor is None:
+            return None
+        limpio = valor.strip()
+        if not limpio.isdigit():
+            raise ValueError("El telefono debe contener unicamente digitos.")
+        return limpio
 
 
 class OwnerResponse(OwnerBase):
-    """Schema de salida devuelto por la API, incluyendo llave primaria y fecha de creacion."""
+    """Esquema de respuesta devuelto por los endpoints de owners."""
 
     owner_id: int
-    created_at: datetime | None = None
