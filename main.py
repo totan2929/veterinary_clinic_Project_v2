@@ -2,7 +2,7 @@
 Programa: main.py
 Objetivo: Punto de entrada de la API REST Veterinary Clinic (FastAPI + MySQL).
 Fecha: 2026-11-24
-Programador: <Tu Nombre>
+Programador: <Jonathan Cañola Salazar - Jorge Andrés García Mojica>
 
 Responsabilidad UNICA:
   - Crear la instancia principal de FastAPI con su metadato OpenAPI.
@@ -44,4 +44,5 @@ def read_root():
         "message": "Veterinary Clinic API - Programacion V",
         "version": "1.0.0",
         "docs": "/docs",
+        "autors-devs": ["Jonathan Cañola Salazar", "Jorge Andrés García Mojica"]
     }
